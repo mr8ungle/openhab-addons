@@ -51,6 +51,30 @@
 		</properties>
 	</thing-type>
 
+	<!-- New gen of water control (2026) -->
+	<thing-type id="water_control_2026">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="account"/>
+		</supported-bridge-type-refs>
+
+		<label>Gardena Smart Water Control 2026</label>
+		<description>Represents a Gardena smart Water Control 2026</description>
+		<semantic-equipment-tag>Irrigation</semantic-equipment-tag>
+
+		<channel-groups>
+			<channel-group id="common" typeId="commonProperties"/>
+			<channel-group id="valve" typeId="valveProperties"/>
+			<channel-group id="valve_commands" typeId="valveCommands"/>
+			<channel-group id="valveSet" typeId="valveSetProperties"/>
+			<channel-group id="valveSet_commands" typeId="valveSetCommands"/>
+		</channel-groups>
+		<properties>
+			<!-- common -->
+			<property name="serial"/>
+			<property name="modelType"/>
+		</properties>
+	</thing-type>
+
 	<!-- ############################### Sensor ############################### -->
 
 	<thing-type id="sensor">
