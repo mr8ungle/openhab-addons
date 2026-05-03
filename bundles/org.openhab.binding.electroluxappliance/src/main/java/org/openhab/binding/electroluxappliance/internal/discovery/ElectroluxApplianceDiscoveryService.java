@@ -51,6 +51,11 @@ public class ElectroluxApplianceDiscoveryService
                     handleThingDiscovered("Electrolux Air Conditioner", bridgeUID,
                             THING_TYPE_ELECTROLUX_PORTABLE_AIR_CONDITIONER, thing.getKey());
                     break;
+
+                case "BUILT-IN OVEN":
+                    handleThingDiscovered("Electrolux Builtin Oven", bridgeUID, THING_TYPE_ELECTROLUX_BUILT_IN_OVEN,
+                            thing.getKey());
+                    break;
                 default:
                     final String applianceType = thing.getValue().getApplianceType();
                     // These two have not been modified as they are not updated to use DTO data validation for commands,

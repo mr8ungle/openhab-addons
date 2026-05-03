@@ -32,6 +32,8 @@ public class ElectroluxApplianceBindingConstants {
     public static final ThingTypeUID THING_TYPE_ELECTROLUX_AIR_PURIFIER = new ThingTypeUID(BINDING_ID, "air-purifier");
     public static final ThingTypeUID THING_TYPE_ELECTROLUX_WASHING_MACHINE = new ThingTypeUID(BINDING_ID,
             "washing-machine");
+    public static final ThingTypeUID THING_TYPE_ELECTROLUX_BUILT_IN_OVEN = new ThingTypeUID(BINDING_ID,
+            "built-in-oven");
     public static final ThingTypeUID THING_TYPE_ELECTROLUX_PORTABLE_AIR_CONDITIONER = new ThingTypeUID(BINDING_ID,
             "portable-air-conditioner");
     public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, "api");
@@ -96,6 +98,24 @@ public class ElectroluxApplianceBindingConstants {
     public static final String CHANNEL_ON_TIMER_TIME = "on-timer-time";
     public static final String CHANNEL_FILTER_STATE = "filter-state";
 
+    // List of all Channel Ids for Built-in Oven
+    public static final String CHANNEL_OVEN_CAVITY_LIGHT = "oven-cavity-light";
+    public static final String CHANNEL_OVEN_DISPLAY_TEMPERATURE = "oven-display-temperature";
+    public static final String CHANNEL_OVEN_TARGET_TEMPERATURE = "oven-target-temperature";
+    public static final String CHANNEL_OVEN_TARGET_FOOD_PROBE_TEMPERATURE = "oven-target-food-probe-temperature";
+    public static final String CHANNEL_OVEN_DISPLAY_FOOD_PROBE_TEMPERATURE = "oven-display-food-probe-temperature";
+    public static final String CHANNEL_OVEN_FOOD_PROBE_INSERTION_STATE = "oven-food-probe-insertion-state";
+    public static final String CHANNEL_OVEN_WATER_TRAY_INSERTION_STATE = "oven-water-tray-insertion-state";
+    public static final String CHANNEL_OVEN_WATER_TANK_EMPTY_STATE = "oven-water-tank-empty-state";
+    public static final String CHANNEL_OVEN_PROCESS_PHASE = "oven-process-phase";
+    public static final String CHANNEL_OVEN_PROGRAM = "oven-program";
+    public static final String CHANNEL_OVEN_REMOTE_CONTROL_STATE = "oven-remote-control-state";
+    public static final String CHANNEL_OVEN_RUNNING_TIME = "oven-running-time";
+    public static final String CHANNEL_OVEN_START_TIME = "oven-start-time";
+    public static final String CHANNEL_OVEN_ALERTS = "oven-alerts";
+    public static final String CHANNEL_CONNECTIVITY_STATE = "connectivity-state";
+    public static final String CHANNEL_OVEN_COMMAND = "oven-commands";
+
     // List of all Properties ids
     public static final String PROPERTY_BRAND = "brand";
     public static final String PROPERTY_COLOUR = "colour";
@@ -113,5 +133,6 @@ public class ElectroluxApplianceBindingConstants {
     public static final String COMMAND_WORKMODE_MANUAL = "Manual";
 
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_BRIDGE,
-            THING_TYPE_ELECTROLUX_AIR_PURIFIER, THING_TYPE_ELECTROLUX_WASHING_MACHINE);
+            THING_TYPE_ELECTROLUX_AIR_PURIFIER, THING_TYPE_ELECTROLUX_WASHING_MACHINE,
+            THING_TYPE_ELECTROLUX_BUILT_IN_OVEN);
 }

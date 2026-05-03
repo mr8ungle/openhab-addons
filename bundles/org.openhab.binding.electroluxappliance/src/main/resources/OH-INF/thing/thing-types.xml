@@ -27,6 +27,11 @@
 				<description>Specifies the refresh interval in seconds.</description>
 				<default>300</default>
 			</parameter>
+			<parameter name="tempUnit" type="text">
+				<label>Temperature Unit</label>
+				<description>Specifies the temperature unit - enter C for Celsius (default) or F for Fahrenheit</description>
+				<default>C</default>
+			</parameter>
 		</config-description>
 	</bridge-type>
 
@@ -145,6 +150,51 @@
 			<channel id="on-timer-duration" typeId="on-timer-duration"/>
 			<channel id="on-timer-time" typeId="on-timer-time"/>
 			<channel id="filter-state" typeId="filter-state"/>
+		</channels>
+
+		<properties>
+			<property name="vendor">Electrolux</property>
+		</properties>
+
+		<representation-property>serialNumber</representation-property>
+
+		<config-description>
+			<parameter name="serialNumber" type="text" required="true">
+				<label>Serial Number</label>
+				<description>The appliance serial number.</description>
+			</parameter>
+		</config-description>
+
+	</thing-type>
+
+	<thing-type id="built-in-oven">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="api"/>
+		</supported-bridge-type-refs>
+
+		<label>Built-in Oven</label>
+
+		<description>This thing represents the Electrolux Built-in Oven.</description>
+		<semantic-equipment-tag>Oven</semantic-equipment-tag>
+		<channels>
+			<channel id="oven-target-temperature" typeId="oven-target-temperature"/>
+			<channel id="oven-display-temperature" typeId="oven-display-temperature"/>
+			<channel id="oven-target-food-probe-temperature" typeId="oven-target-food-probe-temperature"/>
+			<channel id="oven-display-food-probe-temperature" typeId="oven-display-food-probe-temperature"/>
+			<channel id="door-state" typeId="door-state"/>
+			<channel id="oven-cavity-light" typeId="oven-cavity-light"/>
+			<channel id="oven-food-probe-insertion-state" typeId="oven-food-probe-insertion-state"/>
+			<channel id="oven-water-tray-insertion-state" typeId="oven-water-tray-insertion-state"/>
+			<channel id="oven-water-tank-empty-state" typeId="oven-water-tank-empty-state"/>
+			<channel id="oven-process-phase" typeId="oven-process-phase"/>
+			<channel id="oven-program" typeId="oven-program"/>
+			<channel id="oven-remote-control-state" typeId="oven-remote-control-state"/>
+			<channel id="oven-running-time" typeId="oven-running-time"/>
+			<channel id="oven-start-time" typeId="oven-start-time"/>
+			<channel id="oven-alerts" typeId="oven-alerts"/>
+			<channel id="appliance-state" typeId="appliance-state"/>
+			<channel id="connectivity-state" typeId="connectivity-state"/>
+			<channel id="oven-commands" typeId="oven-commands"/>
 		</channels>
 
 		<properties>
@@ -338,6 +388,7 @@
 		<item-type>Contact</item-type>
 		<label>Door State</label>
 		<description>The door status Open/Closed.</description>
+		<category>Door</category>
 		<tags>
 			<tag>Status</tag>
 			<tag>OpenState</tag>
@@ -451,6 +502,7 @@
 		<item-type>String</item-type>
 		<label>Appliance State</label>
 		<description>The appliance state.</description>
+		<category>Text</category>
 		<tags>
 			<tag>Status</tag>
 			<tag>Info</tag>
@@ -842,6 +894,250 @@
 				<option value="CLEAN">Dirty</option>
 			</options>
 		</state>
+	</channel-type>
+
+	<channel-type id="oven-display-temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Temperature</label>
+		<description>The measured temperature.</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-display-food-probe-temperature" advanced="true">
+		<item-type>Number:Temperature</item-type>
+		<label>Temperature Food Probe</label>
+		<description>The measured food probe temperature.</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-target-food-probe-temperature" advanced="true">
+		<item-type>Number:Temperature</item-type>
+		<label>Target Temperature Food Probe</label>
+		<description>The target set-point temperature.</description>
+		<category>heating</category>
+		<tags>
+			<tag>Setpoint</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state min="16" max="300" step="1" pattern="%.0f %unit%"/>
+	</channel-type>
+
+	<channel-type id="oven-target-temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Target Temperature</label>
+		<description>The target set-point temperature.</description>
+		<category>heating</category>
+		<tags>
+			<tag>Setpoint</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state min="20" max="300" step="1" pattern="%.0f %unit%"/>
+	</channel-type>
+
+	<channel-type id="oven-cavity-light">
+		<item-type>Switch</item-type>
+		<label>Cavity Light</label>
+		<description>The cavity light status.</description>
+		<category>Light</category>
+		<tags>
+			<tag>Switch</tag>
+			<tag>Light</tag>
+		</tags>
+	</channel-type>
+
+	<channel-type id="oven-food-probe-insertion-state" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Food Probe</label>
+		<description>The food probe insertion state.</description>
+		<category>Settings</category>
+		<tags>
+			<tag>Switch</tag>
+			<tag>Mode</tag>
+		</tags>
+		<state readOnly="true">
+			<options>
+				<option value="ON">Inserted</option>
+				<option value="OFF">Not Inserted</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-water-tray-insertion-state" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Water Tray</label>
+		<description>The water tray insertion state.</description>
+		<category>Settings</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Mode</tag>
+		</tags>
+		<state readOnly="true">
+			<options>
+				<option value="ON">Inserted</option>
+				<option value="OFF">Not Inserted</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-water-tank-empty-state" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Steam Tank Level</label>
+		<description>Indicates if the steam tank is empty.</description>
+		<category>Water</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Mode</tag>
+		</tags>
+		<state readOnly="true">
+			<options>
+				<option value="ON">Empty</option>
+				<option value="OFF">Full</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-process-phase">
+		<item-type>String</item-type>
+		<label>Process Phase</label>
+		<description>The current process phase.</description>
+		<category>text</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Info</tag>
+		</tags>
+		<state readOnly="true">
+			<options>
+				<option value="NONE">Off</option>
+				<option value="NORMAL_HEATING">Heating</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-program">
+		<item-type>String</item-type>
+		<label>Program</label>
+		<description>The current program.</description>
+		<category>text</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Info</tag>
+		</tags>
+		<state>
+			<options>
+				<option value="AUGRATIN">Überbacken</option>
+				<option value="BOTTOM">Unterhitze</option>
+				<option value="BREAD_BAKING">Brotbacken</option>
+				<option value="CONVENTIONAL_COOKING">Ober-/Unterhitze</option>
+				<option value="DEFROST">Auftauen</option>
+				<option value="DOUGH_PROVING">Teig gehen lassen</option>
+				<option value="DRYING">Dörren</option>
+				<option value="FROZEN_FOOD">Tiefkühlgerichte</option>
+				<option value="GRILL">Grill</option>
+				<option value="GRILL_FAN">Umluftgrill</option>
+				<option value="HUMIDITY_LOW">Niedrige Feuchtigkeit</option>
+				<option value="KEEP_WARM">Warmhalten</option>
+				<option value="MOIST_FAN_BAKING">Feuchtgaren</option>
+				<option value="PIZZA">Pizza-Stufe</option>
+				<option value="PLATE_WARMING">Tellerwärmen</option>
+				<option value="PRESERVING">Einkochen</option>
+				<option value="PYRO_CLEAN_LIGHT">Pyrolyse leicht</option>
+				<option value="PYRO_CLEAN_NORMAL">Pyrolyse normal</option>
+				<option value="REGENERATE">Regenerieren</option>
+				<option value="SLOW_COOK">Niedrigtemperaturgaren</option>
+				<option value="STEAM_CLEAN_DESCALE">Tank entkalken</option>
+				<option value="STEAM_CLEAN_RINSING">Tank spülen</option>
+				<option value="STEAM_CLEAN_TANK_EMPTY">Tank leeren</option>
+				<option value="TRUE_FAN">Heißluft</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="oven-remote-control-state" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Remote Control</label>
+		<description>The remote control state.</description>
+		<category>Network</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Mode</tag>
+		</tags>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="oven-running-time">
+		<item-type unitHint="s">Number:Time</item-type>
+		<label>Running Time</label>
+		<description>The time the oven is running.</description>
+		<category>Time</category>
+
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Duration</tag>
+		</tags>
+		<state readOnly="true" pattern="%1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
+	<channel-type id="oven-start-time">
+		<item-type unitHint="s">Number:Time</item-type>
+		<label>Start Time</label>
+		<description>The time the oven should be started.</description>
+		<category>Time</category>
+
+		<tags>
+			<tag>Setpoint</tag>
+			<tag>Duration</tag>
+		</tags>
+		<state pattern="%1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
+	<channel-type id="oven-alerts" advanced="true">
+		<item-type>String</item-type>
+		<label>Alerts</label>
+		<description>Alerts generated by the oven.</description>
+		<category>alarm</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Info</tag>
+		</tags>
+	</channel-type>
+
+	<channel-type id="connectivity-state" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Connectivity</label>
+		<description>The connectivity state of the appliance.</description>
+		<category>Network</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Mode</tag>
+		</tags>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="oven-commands">
+		<item-type>String</item-type>
+		<label>Commands</label>
+		<description>Commands to control the oven.</description>
+		<command>
+			<options>
+				<option value="OFF">Off</option>
+				<option value="ON">On</option>
+				<option value="RESUME">Resume</option>
+				<option value="START">Start</option>
+				<option value="STOPRESET">Stop/Reset</option>
+			</options>
+		</command>
 	</channel-type>
 
 </thing:thing-descriptions>

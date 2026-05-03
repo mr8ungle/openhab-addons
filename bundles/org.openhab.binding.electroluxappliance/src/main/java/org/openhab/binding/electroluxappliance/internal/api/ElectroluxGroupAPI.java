@@ -36,6 +36,7 @@ import org.openhab.binding.electroluxappliance.internal.dto.AirPurifierStateDTO;
 import org.openhab.binding.electroluxappliance.internal.dto.ApplianceDTO;
 import org.openhab.binding.electroluxappliance.internal.dto.ApplianceInfoDTO;
 import org.openhab.binding.electroluxappliance.internal.dto.ApplianceStateDTO;
+import org.openhab.binding.electroluxappliance.internal.dto.BuiltinOvenStateDTO;
 import org.openhab.binding.electroluxappliance.internal.dto.PortableAirConditionerStateDTO;
 import org.openhab.binding.electroluxappliance.internal.dto.WashingMachineStateDTO;
 import org.openhab.binding.electroluxappliance.internal.listener.TokenUpdateListener;
@@ -143,6 +144,17 @@ public class ElectroluxGroupAPI {
                                 dto.setApplianceState(applianceState, retrievalTs);
                             }
                             electroluxApplianceThings.put(applianceInfo.getApplianceInfo().getSerialNumber(), dto);
+                        } else if ("BUILT-IN OVEN".equals(applianceInfo.getApplianceInfo().getDeviceType())) {
+                            String jsonApplianceState = getApplianceState(applianceId);
+                            ApplianceStateDTO applianceState = gson.fromJson(jsonApplianceState,
+                                    BuiltinOvenStateDTO.class);
+                            if (applianceState != null) {
+                                dto.setApplianceState(applianceState, retrievalTs);
+                            }
+                            electroluxApplianceThings.put(applianceInfo.getApplianceInfo().getSerialNumber(), dto);
+                        } else {
+                            logger.warn("Unsupported device type: {}",
+                                    applianceInfo.getApplianceInfo().getDeviceType());
                         }
                     }
                 }
@@ -243,8 +255,8 @@ public class ElectroluxGroupAPI {
             return false;
         }
 
-        // If the capability on the device does not support readwrite then we cant set it
-        if (!capability.getAccess().equals("readwrite")) {
+        // If the capability on the device is readonly we cannot set it
+        if (capability.getAccess().equals("read")) {
             logger.warn("{}",
                     getLocalizedText("error.electroluxappliance.api.capability.no-read-write", capbilityNmae));
             return false;
@@ -289,7 +301,8 @@ public class ElectroluxGroupAPI {
                     return false;
                 }
 
-                // If step is defined ensure the transmitted value is rounded to the nearest step
+                // If step is defined ensure the transmitted value is rounded to the nearest
+                // step
                 if (capability.getIsReadStep()) {
                     int remainder = valNum % capability.getStep();
                     if (remainder != 0) {

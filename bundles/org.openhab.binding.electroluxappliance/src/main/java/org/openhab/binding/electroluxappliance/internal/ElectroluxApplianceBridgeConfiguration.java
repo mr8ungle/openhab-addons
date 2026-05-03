@@ -24,4 +24,5 @@ public class ElectroluxApplianceBridgeConfiguration {
     public String apiKey = "";
     public String refreshToken = "";
     public int refresh = 600;
+    public String tempUnit = "C";
 }

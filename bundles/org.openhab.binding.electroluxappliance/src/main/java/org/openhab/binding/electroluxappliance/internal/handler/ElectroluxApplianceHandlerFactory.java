@@ -50,7 +50,8 @@ import com.google.gson.GsonBuilder;
 public class ElectroluxApplianceHandlerFactory extends BaseThingHandlerFactory {
 
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_ELECTROLUX_AIR_PURIFIER,
-            THING_TYPE_ELECTROLUX_WASHING_MACHINE, THING_TYPE_ELECTROLUX_PORTABLE_AIR_CONDITIONER, THING_TYPE_BRIDGE);
+            THING_TYPE_ELECTROLUX_WASHING_MACHINE, THING_TYPE_ELECTROLUX_PORTABLE_AIR_CONDITIONER, THING_TYPE_BRIDGE,
+            THING_TYPE_ELECTROLUX_BUILT_IN_OVEN);
     private final Gson gson;
     private HttpClient httpClient;
     private final TranslationProvider translationProvider;
@@ -87,6 +88,8 @@ public class ElectroluxApplianceHandlerFactory extends BaseThingHandlerFactory {
             return new ElectroluxWashingMachineHandler(thing, translationProvider, localeProvider);
         } else if (THING_TYPE_ELECTROLUX_PORTABLE_AIR_CONDITIONER.equals(thingTypeUID)) {
             return new ElectroluxPortableAirConditionerHandler(thing, translationProvider, localeProvider, storage);
+        } else if (THING_TYPE_ELECTROLUX_BUILT_IN_OVEN.equals(thingTypeUID)) {
+            return new ElectroluxBuiltinOvenHandler(thing, translationProvider, localeProvider, storage);
         } else if (THING_TYPE_BRIDGE.equals(thingTypeUID)) {
             return new ElectroluxApplianceBridgeHandler((Bridge) thing, httpClient, gson, translationProvider,
                     localeProvider, storage);
